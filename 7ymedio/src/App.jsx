@@ -17,21 +17,39 @@ const cartas= [
 function App() {
   const [cartaAleatoria, setCartaAleatoria] = useState(0)
   const [puntaje, setPuntaje] = useState(0)
+  const [banca, setBanca] = useState(0)
+
+  const turnoBanca = () => {
+    const cartaBanca = Math.floor(Math.random() * cartas.length);
+    setBanca(cartas[cartaBanca]);
+  };
+  
   const pedirCarta = () => {
     const carta= Math.floor(Math.random()*cartas.length)
     const cartaGenerada = cartas[carta]
     setCartaAleatoria(cartaGenerada)
     const nuevoPuntaje = puntaje + cartaGenerada.valor;
-    if (puntaje > 7) {
-      alert('El valor de tus cartas ha pasado el 7, Perdiste.')
-    }
     setCartaAleatoria(cartaGenerada);
-  setPuntaje(nuevoPuntaje);
+    setPuntaje(nuevoPuntaje);
+    if (nuevoPuntaje > 7.5) {
+      alert('El valor de tus cartas ha pasado el 7 y medio. Perdiste.');
+      setPuntaje(0); 
+      setCartaAleatoria(0)
+    } else {
+      setCartaAleatoria(cartaGenerada);
+      setPuntaje(nuevoPuntaje);
+    }
+ 
+  };
+
+  const planto = () => {
+
   };
 
   return (
     <>
    <h1>7 y medio</h1>
+   <p>Valor de la banca: {banca.valor} </p>
    <div>
     <p>Carta: {cartaAleatoria.nombre} </p>
     <p>Valor: {cartaAleatoria.valor} </p>
@@ -40,7 +58,7 @@ function App() {
         <p>Total acumulado: {puntaje}</p>
       </div>
    <button onClick={pedirCarta}>Pedir una carta</button>
-   <button>Me planto</button>
+   <button onClick={planto}>Me planto</button>
     </>
   )
 }
